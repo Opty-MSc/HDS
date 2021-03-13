@@ -1,0 +1,34 @@
+syntax = "proto3";
+package pt.tecnico.ulisboa.hds.contract;
+
+/*=================
+| Server Services |
+=================*/
+service ServerServices {
+  rpc Echo(EchoRequest) returns (EchoReply);
+}
+
+/*=========
+| Defines |
+=========*/
+message SecureMessage {
+  bytes signature = 1;
+  bytes iv = 2;
+}
+
+message EchoBody {
+  string message = 1;
+}
+
+/*===============
+| Echo Messages |
+===============*/
+message EchoRequest {
+  bytes encryptedBody = 1;
+  SecureMessage secure = 2;
+}
+
+message EchoReply {
+  bytes encryptedBody = 1;
+  SecureMessage secure = 2;
+}
