@@ -1,0 +1,155 @@
+syntax = "proto3";
+package pt.tecnico.ulisboa.hds.hdlt.contract.cs;
+
+/*========================
+| Client-Server Services |
+========================*/
+service ClientServerServices {
+  rpc SubmitULReport(SubmitULReportReq) returns (SubmitULReportRep);
+  rpc ObtainUL(ObtainULReq) returns (ObtainULRep);
+  rpc ObtainULWriteBack(ObtainULWriteBackReq)returns (ObtainULWriteBackRep);
+  rpc ObtainUAtL(ObtainUAtLReq) returns (ObtainUAtLRep);
+  rpc RequestMyProofs(RequestMyProofsReq) returns (RequestMyProofsRep);
+}
+
+/*=============
+| Definitions |
+=============*/
+message Header {
+  string uname = 1;
+  bytes nonce = 2;
+  bytes iv = 3;
+}
+
+message Proof {
+  string uname = 1;
+  int32 epoch = 2;
+  // Location
+  int32 x = 3;
+  int32 y = 4;
+}
+
+message AuthProof {
+  Proof proof = 1;
+  bytes signedProof = 2;
+  ServerIdProofs sIdProofsValues = 3;
+}
+
+message UserReport {
+  Proof proof = 1;
+  map<string, bytes> uIdProofs = 2;
+}
+
+message Report {
+  UserReport uReport = 1;
+  map<string, ServerIdProofs> sIdProofs = 2;
+}
+
+message ServerIdProofs {
+  map<string, bytes> sIdProofsValues = 1;
+}
+
+/*=========================
+| SubmitULReport Messages |
+=========================*/
+message SubmitULReportReq {
+  Header header = 1;
+  int64 pow = 2;
+  bytes cipheredUserReport = 3;
+  bytes hmac = 4;
+}
+
+message SubmitULReportRep {
+  bytes hmac = 1;
+}
+
+/*===================
+| ObtainUL Messages |
+===================*/
+message ObtainULReqPayload {
+  string uname = 1;
+  int32 epoch = 2;
+}
+
+message ObtainULReq {
+  Header header = 1;
+  bytes cipheredPayload = 2;
+  bytes hmac = 3;
+}
+
+message ObtainULRepPayload {
+  // Location
+  int32 x = 1;
+  int32 y = 2;
+  map<string, bytes> uIdProofs = 3;
+  map<string, ServerIdProofs> sIdProofs = 4;
+}
+
+message ObtainULRep {
+  bytes iv = 1;
+  bytes cipheredPayload = 2;
+  bytes hmac = 3;
+}
+
+/*============================
+| ObtainULWriteBack Messages |
+============================*/
+message ObtainULWriteBackReq {
+  Header header = 1;
+  int64 pow = 2;
+  bytes cipheredReport = 3;
+  bytes hmac = 4;
+}
+
+message ObtainULWriteBackRep {
+  bytes hmac = 1;
+}
+
+/*=====================
+| ObtainUAtL Messages |
+=====================*/
+message ObtainUAtLReqPayload {
+  int32 epoch = 1;
+  // Location
+  int32 x = 2;
+  int32 y = 3;
+}
+
+message ObtainUAtLReq {
+  Header header = 1;
+  bytes cipheredPayload = 2;
+  bytes hmac = 3;
+}
+
+message ObtainUAtLRepPayload {
+  repeated Report reports = 1;
+}
+
+message ObtainUAtLRep {
+  bytes iv = 1;
+  bytes cipheredPayload = 2;
+  bytes hmac = 3;
+}
+
+/*==========================
+| RequestMyProofs Messages |
+==========================*/
+message RequestMyProofsReqPayload {
+  repeated int32 epochs = 1;
+}
+
+message RequestMyProofsReq {
+  Header header = 1;
+  bytes cipheredPayload = 2;
+  bytes hmac = 3;
+}
+
+message RequestMyProofsRepPayload {
+  repeated AuthProof authProofs = 1;
+}
+
+message RequestMyProofsRep {
+  bytes iv = 1;
+  bytes cipheredPayload = 2;
+  bytes hmac = 3;
+}

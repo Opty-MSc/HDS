@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>HDLT</artifactId>
+        <groupId>pt.tecnico.ulisboa.hds.hdlt</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>Byzantine</artifactId>
+    <name>${project.artifactId}</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <myUserResources>../User/src/main/resources</myUserResources>
+        <myServerResources>../Server/src/main/resources</myServerResources>
+        <myUserKSDirPath>${myUserResources}/UserKeyStores</myUserKSDirPath>
+        <myServerKSDirPath>${myServerResources}/ServerKeyStores</myServerKSDirPath>
+
+        <myUserCrtDirPath>${myUserResources}/UserCertificates</myUserCrtDirPath>
+        <myServerCrtDirPath>${myServerResources}/ServerCertificates</myServerCrtDirPath>
+        <myHACrtPath>${myServerResources}/HA.crt</myHACrtPath>
+        <myNByzantineServers>1</myNByzantineServers>
+        <myNByzantineUsers>2</myNByzantineUsers>
+        <myMaxDistance>5</myMaxDistance>
+        <myGridPath>${myUserResources}/Grid.csv</myGridPath>
+        <myUsersURLsPath>${myUserResources}/UsersURLs.csv</myUsersURLsPath>
+        <myServersURLsPath>${myServerResources}/ServersURLs.csv</myServersURLsPath>
+        <mySessionTime>60</mySessionTime>
+        <myEpochLifeTime>1000</myEpochLifeTime>
+        <myPowDifficulty>2</myPowDifficulty>
+        <myKeyStoreAlias>MyPrivateKey</myKeyStoreAlias>
+        <myKeyStorePwd>jkRBBvUkJXn43QGG</myKeyStorePwd>
+        <myCallTimeout>30</myCallTimeout>
+        <myMaxNRetries>3</myMaxNRetries>
+    </properties>
+
+    <dependencies>
+        <!-- User Brings Dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>User</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- Server Brings Dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Server</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <!-- Plugin Used to Compile the Sources of the Project -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                </configuration>
+            </plugin>
+            <!-- JUnit Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

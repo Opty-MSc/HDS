@@ -1,0 +1,45 @@
+syntax = "proto3";
+package pt.tecnico.ulisboa.hds.hdlt.contract.ss;
+
+/*===============
+| ADEB Services |
+===============*/
+service ADEBServices {
+  rpc Echo(EchoReq) returns (EchoRep);
+  rpc Ready(ReadyReq) returns (ReadyRep);
+}
+
+/*=============
+| Definitions |
+=============*/
+message Header {
+  string sName = 1;
+  bytes nonce = 2;
+  bytes iv = 3;
+}
+
+/*===============
+| Echo Messages |
+===============*/
+message EchoReq {
+  Header header = 1;
+  bytes cipheredUserReport = 2;
+  bytes hmac = 3;
+}
+
+message EchoRep {
+  bytes hmac = 1;
+}
+
+/*================
+| Ready Messages |
+================*/
+message ReadyReq {
+  Header header = 1;
+  bytes cipheredReport = 2;
+  bytes hmac = 3;
+}
+
+message ReadyRep {
+  bytes hmac = 1;
+}

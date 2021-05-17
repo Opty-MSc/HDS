@@ -1,0 +1,46 @@
+syntax = "proto3";
+package pt.tecnico.ulisboa.hds.hdlt.contract.dh;
+
+/*=========================
+| Diffie-Hellman Services |
+=========================*/
+service DHServices {
+  rpc DH(DHReq) returns (DHRep);
+}
+
+/*=============
+| Definitions |
+=============*/
+message Header {
+  string name = 1;
+  bytes uNonce = 2;
+}
+
+message Signature {
+  bytes byteString = 1;
+}
+
+/*=============
+| DH Messages |
+=============*/
+message DHReqPayload {
+  bytes p = 1;
+  bytes g = 2;
+  bytes y = 3;
+}
+
+message DHReq {
+  Header header = 1;
+  DHReqPayload payload = 2;
+  bytes signature = 3;
+}
+
+message DHRepPayload {
+  bytes y = 1;
+  bytes sNonce = 2;
+}
+
+message DHRep {
+  DHRepPayload payload = 1;
+  bytes signature = 2;
+}

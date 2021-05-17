@@ -1,0 +1,31 @@
+syntax = "proto3";
+package pt.tecnico.ulisboa.hds.hdlt.contract.uu;
+
+/*====================
+| User-User Services |
+====================*/
+service UserUserServices {
+  rpc RequestULProof(RequestULProofReq) returns (RequestULProofRep);
+}
+
+/*=============
+| Definitions |
+=============*/
+message Header {
+  string uname = 1;
+  int32 epoch = 2;
+  bytes nonce = 3;
+}
+
+/*=========================
+| RequestULProof Messages |
+=========================*/
+message RequestULProofReq {
+  Header header = 1;
+  bytes signature = 2;
+}
+
+message RequestULProofRep {
+  bytes signedProof = 1;
+  bytes signature = 2;
+}

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>HDLT</artifactId>
+        <groupId>pt.tecnico.ulisboa.hds.hdlt</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>HA</artifactId>
+    <name>${project.artifactId}</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <myResources>src/main/resources</myResources>
+        <myUserResources>../User/src/main/resources</myUserResources>
+        <myGridPath>${myUserResources}/Grid.csv</myGridPath>
+
+        <myMainClass>HAApp</myMainClass>
+        <!-- Arguments -->
+        <myUsername>HA</myUsername>
+        <myHAKSPath>${myResources}/HA.jks</myHAKSPath>
+        <myUserCrtDirPath>${myResources}/UserCertificates</myUserCrtDirPath>
+        <myServerCrtDirPath>${myResources}/ServerCertificates</myServerCrtDirPath>
+        <myNByzantineServers>1</myNByzantineServers>
+        <myNByzantineUsers>1</myNByzantineUsers>
+        <myMaxDistance>5</myMaxDistance>
+        <myServersURLsPath>${myResources}/ServersURLs.csv</myServersURLsPath>
+        <mySessionTime>60</mySessionTime>
+        <myPowDifficulty>2</myPowDifficulty>
+        <myKeyStoreAlias>MyPrivateKey</myKeyStoreAlias>
+        <myKeyStorePwd>jkRBBvUkJXn43QGG</myKeyStorePwd>
+        <myCallTimeout>30</myCallTimeout>
+        <myMaxNRetries>3</myMaxNRetries>
+    </properties>
+
+    <dependencies>
+        <!-- Contract Brings gRPC Dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Contracts</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- Project Custom Lib -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Lib</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <!-- Plugin Used to Compile the Sources of the Project -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                </configuration>
+            </plugin>
+            <!-- Plugin that Provides Goals to Execute System and Java Programs -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${project.groupId}.ha.${myMainClass}</mainClass>
+                    <arguments>
+                        <argument>${myUsername}</argument>
+                        <argument>${myHAKSPath}</argument>
+                        <argument>${myUserCrtDirPath}</argument>
+                        <argument>${myServerCrtDirPath}</argument>
+                        <argument>${myNByzantineServers}</argument>
+                        <argument>${myNByzantineUsers}</argument>
+                        <argument>${myMaxDistance}</argument>
+                        <argument>${myServersURLsPath}</argument>
+                        <argument>${mySessionTime}</argument>
+                        <argument>${myPowDifficulty}</argument>
+                        <argument>${myKeyStoreAlias}</argument>
+                        <argument>${myKeyStorePwd}</argument>
+                        <argument>${myCallTimeout}</argument>
+                        <argument>${myMaxNRetries}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+            <!-- JUnit Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
